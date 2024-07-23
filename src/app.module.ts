@@ -10,8 +10,8 @@ import { Admin } from './entities/admin.entity';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
+      host: 'localhost', // 172.17.0.1
+      port: 8081,
       username: 'my_user',
       password: 'my_password',
       database: 'my_database',
@@ -24,4 +24,3 @@ import { Admin } from './entities/admin.entity';
   ],
 })
 export class AppModule {}
-

@@ -3,16 +3,16 @@ import { UpdateCrudDto } from './dto/update-crud.dto'
 import { AuthService } from '../auth/auth.service'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { Page } from 'src/entities/page.entity'
-import { Element } from 'src/entities/element.entity'
+import { Page } from '../entities/page.entity'
+import { Element } from '../entities/element.entity'
 
 @Injectable()
 export class CrudService {
   constructor(
-    @InjectRepository(Page)
-    private pagesRepository: Repository<Page>,
-    @InjectRepository(Element)
-    private elementsRepository: Repository<Element>,
+    // @InjectRepository(Page)
+    // private pageRepository: Repository<Page>,
+    // @InjectRepository(Element)
+    // private elementRepository: Repository<Element>,
     private readonly authService: AuthService
     ) {}
 
@@ -71,26 +71,38 @@ export class CrudService {
       }
     }
     return this.pages
-  }  
+  }
 
-  getPage(id: string, token: string) {
+  async getPage(id: string, token: string) {
     if(!this.authService.validateToken(token)) {
       return {
         message: "You are not admin"
       }
     }
+
     if(id in this.pages) {
       return this.contents[id];
     }
     return `This id is not in the database`;
+    
+    // const page = await this.pageRepository.findOne({
+    //   where: { id: +id },
+    //   relations: ['elements'],
+    // })
+    
+    // if(page) {
+    //   return page
+    // }
+    // return `This id is not in the database`;
   }
 
-  updatePage(id: number, updateCrudDto: UpdateCrudDto, token: string) {
+  async updatePage(id: number, updateCrudDto: UpdateCrudDto, token: string) {
     if(!this.authService.validateToken(token)) {
       return {
         message: "You are not admin"
       }
     }
+
     const pageId = id.toString();
     if(pageId in this.pages) {
       this.contents[pageId].name = updateCrudDto.name
@@ -98,5 +110,29 @@ export class CrudService {
       return this.contents[pageId];
     }
     return `This page is not in existant in the database`;
+
+    // const page = await this.pageRepository.findOne({
+    //   where: { id: id },
+    //   relations: ['elements'],
+    // })
+    
+    // if(page) {
+    //   page.name = updateCrudDto.name
+    //   page.elements = updateCrudDto.elements.map(element => {
+    //     const newElement = new Element()
+    //     newElement.id = element.id;
+    //     newElement.type = element.type;
+    //     newElement.order = element.order;
+    //     newElement.content = element.content;
+    //     newElement.title = element.title;
+    //     newElement.caption = element.caption;
+    //     newElement.page = page;
+    //     return newElement
+    //   })
+    //   await this.pageRepository.save(page)
+    //   return page
+    // }
+    // return `This page is not in existant in the database`;
   }
+  
 }

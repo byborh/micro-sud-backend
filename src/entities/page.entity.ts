@@ -4,11 +4,11 @@ import { Element } from './element.entity'
 @Entity()
 export class Page {
     @PrimaryGeneratedColumn()
-    id: number
+    id: number;
 
     @Column()
-    name:string
+    name: string;
 
-    @OneToMany(() => Element, element => element.page)
-    elements: Element[]
+    @OneToMany(() => Element, element => element.page, { cascade: true })
+    elements: Element[];
 }
