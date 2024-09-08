@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { UpdateCrudDto } from './dto/update-crud.dto'
 import { AuthService } from '../auth/auth.service'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
-import { Page } from '../entities/page.entity'
-import { Element } from '../entities/element.entity'
+// import { InjectRepository } from '@nestjs/typeorm'
+// import { Repository } from 'typeorm'
+// import { Page } from '../entities/page.entity'
+// import { Element } from '../entities/element.entity'
 
 @Injectable()
 export class CrudService {
